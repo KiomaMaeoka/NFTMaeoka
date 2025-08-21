@@ -4,16 +4,18 @@
   "type": "module",
   "scripts": {
     "dev": "node src/index.js",
-    "deploy": "node scripts/deploy.js",
+    "build": "blueprint build",
+    "deploy": "blueprint run",
     "test": "node test/test.js"
   },
   "dependencies": {
-    "@ton/ton": "^15.0.0",
+    "@ton/core": "^0.61.0",
     "@ton/crypto": "^3.3.0",
-    "@ton/core": "^0.60.0",
+    "@ton/ton": "^15.0.0",
     "dotenv": "^16.4.5"
   },
   "devDependencies": {
+    "@ton/blueprint": "^0.40.0",
     "@ton/test-utils": "^0.5.0"
   }
 }

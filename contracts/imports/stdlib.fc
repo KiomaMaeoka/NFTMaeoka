@@ -1,0 +1,3 @@
+forall X -> int equal_slices (slice a, slice b) asm "SDEQ";
+int slice_hash(slice s) asm "SHA256U";
+(int, int, int) compute_data_size(cell c, int max_cells) impure asm "CDATASIZE";

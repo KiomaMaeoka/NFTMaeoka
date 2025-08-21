@@ -1,0 +1,28 @@
+#include "imports/stdlib.fc";
+
+;; Storage
+global int storage::next_item_index;
+global slice storage::owner_address;
+
+() load_data() impure inline {
+    slice ds = get_data().begin_parse();
+    storage::next_item_index = ds~load_uint(32);
+    storage::owner_address = ds~load_msg_addr();
+}
+
+() save_data() impure inline {
+    set_data(begin_cell()
+        .store_uint(storage::next_item_index, 32)
+        .store_slice(storage::owner_address)
+    .end_cell());
+}
+
+() recv_internal(int msg_value, cell in_msg_full, slice in_msg_body) impure {
+    if (in_msg_body.slice_empty?()) { return (); }
+    load_data();
+    int op = in_msg_body~load_uint(32);
+    if (op == 1) { ;; mint
+        storage::next_item_index += 1;
+        save_data();
+    }
+}
