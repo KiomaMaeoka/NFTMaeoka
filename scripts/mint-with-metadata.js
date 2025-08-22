@@ -20,7 +20,7 @@ async function mintWithMetadata() {
     });
     
     const walletContract = client.open(wallet);
-    const collectionAddress = Address.parse('EQAyyW7FVsRLmMVsuTCD04CyKTgdHPDH-0NqrO5-FQS5i_jF');
+    const collectionAddress = Address.parse('EQCUFX7O4RBmw_RGpaUCt_MJ0DpGkBRI3PyWevnlfff-a3f0');
     
     // Criar metadata
     const metadata = {

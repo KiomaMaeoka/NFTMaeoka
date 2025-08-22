@@ -1,0 +1,23 @@
+{
+  "collection": "EQBZBR8-vYVCTdJlQA_MfPhm9b-6lntez8Z-fQoyMAO38JMz",
+  "metadata": {
+    "name": "Maeoka Terreno #0",
+    "description": "Participação 10% - Terreno Curitiba",
+    "image": "https://raw.githubusercontent.com/ton-community/ton-docs/main/static/img/logo.svg",
+    "attributes": [
+      {
+        "trait_type": "Percentual",
+        "value": "10%"
+      },
+      {
+        "trait_type": "Tipo",
+        "value": "Terreno"
+      },
+      {
+        "trait_type": "Local",
+        "value": "Curitiba"
+      }
+    ]
+  },
+  "timestamp": "2025-08-22T15:19:11.449Z"
+}

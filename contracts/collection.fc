@@ -5,26 +5,69 @@ global int storage::next_item_index;
 global slice storage::owner_address;
 
 () load_data() impure inline {
-    slice ds = begin_parse(get_data());
+    slice ds = get_data().begin_parse();
     storage::next_item_index = ds~load_uint(32);
     storage::owner_address = ds~load_msg_addr();
 }
 
 () save_data() impure inline {
-    set_data(
-        begin_cell()
-            .store_uint(storage::next_item_index, 32)
-            .store_slice(storage::owner_address)
-            .end_cell()
-    );
+    set_data(begin_cell()
+        .store_uint(storage::next_item_index, 32)
+        .store_slice(storage::owner_address)
+    .end_cell());
+}
+
+slice calculate_nft_address(int item_index) inline {
+    ;; Simular cálculo de endereço NFT
+    cell state_init = begin_cell()
+        .store_uint(item_index, 32)
+        .store_slice(storage::owner_address)
+    .end_cell();
+    
+    return begin_cell()
+        .store_uint(4, 3)
+        .store_int(0, 8)
+        .store_uint(123456789, 256) ;; hash simulado
+    .end_cell().begin_parse();
 }
 
 () recv_internal(int msg_value, cell in_msg_full, slice in_msg_body) impure {
-    if (slice_empty?(in_msg_body)) { return (); }
+    if (in_msg_body.slice_empty?()) { return (); }
+    
+    slice cs = in_msg_full.begin_parse();
+    int flags = cs~load_uint(4);
+    if (flags & 1) { return (); }
+    
     load_data();
+    
     int op = in_msg_body~load_uint(32);
+    
     if (op == 1) { ;; mint
+        ;; Apenas incrementar contador
         storage::next_item_index += 1;
         save_data();
     }
+}
+
+;; Get methods
+(int, cell, slice) get_collection_data() method_id {
+    load_data();
+    cell content = begin_cell().store_uint(0, 8).end_cell();
+    return (storage::next_item_index, content, storage::owner_address);
+}
+
+slice get_nft_address_by_index(int index) method_id {
+    load_data();
+    return calculate_nft_address(index);
+}
+
+(slice, cell) get_nft_content(int index, cell individual_content) method_id {
+    load_data();
+    slice content = begin_cell().store_uint(1, 8).store_uint(index, 32).end_cell().begin_parse();
+    return (content, individual_content);
+}
+
+slice get_owner() method_id {
+    load_data();
+    return storage::owner_address;
 }

@@ -12,7 +12,7 @@ async function checkNFT() {
     });
     
     // Endereço da Collection
-    const collectionAddress = Address.parse('EQAyyW7FVsRLmMVsuTCD04CyKTgdHPDH-0NqrO5-FQS5i_jF');
+    const collectionAddress = Address.parse('EQCUFX7O4RBmw_RGpaUCt_MJ0DpGkBRI3PyWevnlfff-a3f0');
     
     try {
         // Verificar estado da Collection

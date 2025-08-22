@@ -5,7 +5,8 @@
     "dev": "node src/index.js",
     "build": "blueprint build",
     "deploy": "blueprint run",
-    "test": "node test/test.js"
+    "test": "node test/test.js",
+    "serve": "npx http-server -p 3000"
   },
   "dependencies": {
     "@ton/core": "^0.61.0",

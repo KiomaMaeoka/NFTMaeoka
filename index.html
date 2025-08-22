@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maeoka NFT - Terrenos Fracionados</title>
+    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .nft-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .nft-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .nft-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .nft-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .nft-attribute {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+            padding: 5px 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+        }
+        .mint-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 20px auto;
+            display: block;
+        }
+        .mint-button:hover {
+            transform: scale(1.05);
+        }
+        #ton-connect-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="ton-connect-button"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>🏗️ Maeoka NFT Collection</h1>
+            <p>Terrenos Fracionados na Blockchain TON</p>
+            <p>Collection: EQBZBR8-vYVCTdJlQA_MfPhm9b-6lntez8Z-fQoyMAO38JMz</p>
+        </div>
+
+        <button class="mint-button" onclick="mintNFT()">
+            🎨 Mintar Novo NFT
+        </button>
+
+        <div class="nft-grid" id="nftGrid">
+            <!-- NFTs serão carregados aqui -->
+        </div>
+    </div>
+
+    <script>
+        // Inicializar TON Connect
+        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+            manifestUrl: 'https://raw.githubusercontent.com/ton-community/tutorials/main/03-client/test/public/tonconnect-manifest.json',
+            buttonRootId: 'ton-connect-button'
+        });
+
+        // Carregar NFT mintado
+        async function loadNFTs() {
+            try {
+                const response = await fetch('last-minted-nft.json');
+                const nft = await response.json();
+                
+                const nftGrid = document.getElementById('nftGrid');
+                nftGrid.innerHTML = `
+                    <div class="nft-card">
+                        <img src="${nft.metadata.image}" alt="${nft.metadata.name}" class="nft-image">
+                        <div class="nft-title">${nft.metadata.name}</div>
+                        <div class="nft-description">${nft.metadata.description}</div>
+                        ${nft.metadata.attributes.map(attr => `
+                            <div class="nft-attribute">
+                                <span>${attr.trait_type}:</span>
+                                <strong>${attr.value}</strong>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } catch (e) {
+                console.log('Carregando NFTs...');
+                document.getElementById('nftGrid').innerHTML = `
+                    <div class="nft-card">
+                        <div class="nft-title">🎨 Nenhum NFT encontrado</div>
+                        <p>Execute o mint primeiro:</p>
+                        <code>node scripts/mint-nft.js</code>
+                    </div>
+                `;
+            }
+        }
+
+        async function mintNFT() {
+            alert('🎨 Função de mint será conectada ao contrato!\nUse: node scripts/mint-nft.js');
+        }
+
+        // Carregar NFTs ao iniciar
+        loadNFTs();
+        setInterval(loadNFTs, 5000); // Atualizar a cada 5 segundos
+    </script>
+</body>
+</html>
