@@ -1,8 +1,10 @@
-import { Config } from '@ton/blueprint';
+const { Config } = require('@ton/blueprint');
 
-export const config: Config = {
+const config = {
     network: {
         endpoint: 'https://testnet.toncenter.com/api/v2/jsonRPC',
         type: 'testnet',
     },
 };
+
+module.exports = { config };
