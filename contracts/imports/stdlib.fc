@@ -4,9 +4,7 @@ cell get_data() asm "c4 PUSH";
 
 ;; Funções de parsing
 slice begin_parse(cell c) asm "CTOS";
-(slice, int) load_uint(slice s, int len) asm( -> 1 0) "LDUX";
 (slice, slice) load_msg_addr(slice s) asm( -> 1 0) "LDMSGADDR";
-builder store_uint(builder b, int x, int len) asm "STUX";
 builder store_slice(builder b, slice s) asm "STSLICER";
 cell end_cell(builder b) asm "ENDC";
 builder begin_cell() asm "NEWC";
